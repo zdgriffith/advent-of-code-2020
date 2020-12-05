@@ -13,7 +13,8 @@ def validate_fields(passport):
 
 if __name__ == "__main__":
     passports = [{}]
-    with Path("input.txt").open() as f:
+    fpath = Path(__file__).parent / "input.txt"
+    with fpath.open() as f:
         for r in f.readlines():   
             if not r.strip():
                 passports.append({})

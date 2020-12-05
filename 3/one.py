@@ -3,9 +3,9 @@ from pathlib import Path
 import numpy as np
 
 
-def construct_field(fname):
+def construct_field(fpath):
     field = []
-    with Path(fname).open() as f:
+    with fpath.open() as f:
         for r in f.readlines():   
             field.append(np.array([int(i) for i in r.strip().replace(".", "0").replace("#", "1")]))
     return np.array(field)
@@ -22,6 +22,7 @@ def count_trees(field, right, down):
     return trees
 
 if __name__ == "__main__":
-    field = construct_field("input.txt")
+    fpath = Path(__file__).parent / "input.txt"
+    field = construct_field(fpath)
     print(count_trees(field, 3, 1))
 

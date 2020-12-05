@@ -11,7 +11,8 @@ def is_valid(row):
 
 if __name__ == "__main__":
     count = 0
-    with Path("input.txt").open() as f:
+    fpath = Path(__file__).parent / "input.txt"
+    with fpath.open() as f:
         for r in f.readlines():
             count += is_valid(r.strip())
     print(count) 
