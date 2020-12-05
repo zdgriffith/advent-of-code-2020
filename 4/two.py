@@ -29,9 +29,7 @@ def validate_height(height):
 def validate_hcl(hcl):
     if len(hcl) != 7:
         return False
-    if hcl[0] != "#":
-        return False
-    if set(hcl[1:]).difference(hcl_chars):
+    if hcl[0] != "#" or set(hcl[1:]).difference(hcl_chars):
         return False
     return True
 
