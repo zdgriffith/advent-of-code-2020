@@ -3,20 +3,25 @@ from pathlib import Path
 from one import parse_fields, validate_fields
 
 
+ranges = {
+    "byr": (1920, 2002),
+    "iyr": (2010, 2020),
+    "eyr": (2020, 2030),
+    "cm": (150, 193),
+    "in": (59, 76),
+}
+
+
 def in_range(val, low, high):
     if not val.isdigit():
         return False
     return (int(val) >= low) and (int(val) <= high)
 
 
-height_ranges = {
-    "cm": {"low": 150, "high": 193},
-    "in": {"low": 59, "high": 76},
-}
 def validate_height(height):
-    if height[-2:] not in height_ranges:
+    if height[-2:] not in ranges:
         return False
-    return in_range(height[:-2], **height_ranges[height[-2:]])
+    return in_range(height[:-2], *ranges[height[-2:]])
 
 
 hcl_chars = set([str(i) for i in range(10)])
@@ -32,12 +37,8 @@ def validate_hcl(hcl):
 
 
 def validate_data(field, value):
-    if field == "byr":
-        return in_range(value, 1920, 2002)
-    elif field == "iyr":
-        return in_range(value, 2010, 2020)
-    elif field == "eyr":
-        return in_range(value, 2020, 2030)
+    if field in ranges:
+        return in_range(value, *ranges[field])
     elif field == "hgt":
         return validate_height(value)
     elif field == "hcl":
