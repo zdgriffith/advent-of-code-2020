@@ -10,6 +10,8 @@ ranges = {
     "cm": (150, 193),
     "in": (59, 76),
 }
+hcl_chars = set([str(i) for i in range(10)] + [c for c in "abcdef"])
+valid_eye_colors = {"amb", "blu", "brn", "gry", "grn", "hzl", "oth"}
 
 
 def in_range(val, low, high):
@@ -24,14 +26,12 @@ def validate_height(height):
     return in_range(height[:-2], *ranges[height[-2:]])
 
 
-hcl_chars = set([str(i) for i in range(10)])
-hcl_chars |= set([a for a in "abcdef"])
 def validate_hcl(hcl):
     if len(hcl) != 7:
         return False
     if hcl[0] != "#":
         return False
-    if set(hcl[1]).difference(hcl_chars):
+    if set(hcl[1:]).difference(hcl_chars):
         return False
     return True
 
@@ -44,7 +44,7 @@ def validate_data(field, value):
     elif field == "hcl":
         return validate_hcl(value)
     elif field == "ecl":
-        return value in {"amb", "blu", "brn", "gry", "grn", "hzl", "oth"}
+        return value in valid_eye_colors
     elif field == "pid":
         return (len(value) == 9) and value.isdigit()
     else:
